@@ -60,8 +60,8 @@ export default function Home({ posts }) {
                 boxSize="sm"
                 mt="0"
                 borderWidth="1px"
-                width="280px"
-                height="360px"
+                width="180px"
+                height="260px"
                 borderRadius="md"
                 boxShadow="dark-lg"
               >
@@ -69,7 +69,7 @@ export default function Home({ posts }) {
                   src="/me.jpg"
                   alt="Aniebiet Udoh"
                   borderRadius="md"
-                  height="358px"
+                  height="258px"
                   objectFit="cover"
                 />
               </Box>
@@ -90,6 +90,7 @@ export default function Home({ posts }) {
               p="5"
               border="1px"
               borderColor="#b4b0b0"
+              bg={"blackAlpha.50"}
             >
               <Text color="teal.800">{post.frontMatter.date}</Text>
               <Text pb="2" height="60px" fontWeight="bold" fontSize="sm">

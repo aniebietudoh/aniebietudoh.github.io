@@ -9,6 +9,7 @@ import {
   useColorMode,
   useColorModeValue,
   Stack,
+  Divider,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, SunIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
@@ -68,6 +69,7 @@ export default function Navigation() {
             </Stack>
           </Box>
         ) : null}
+        <Divider border={"2px"} borderColor={"blackAlpha.300"} />
       </Box>
     </>
   );

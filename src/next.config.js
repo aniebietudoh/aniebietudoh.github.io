@@ -5,4 +5,9 @@ const nextConfig = {
   // useFileSystemPublicRoutes: false,
 };
 
-module.exports = nextConfig;
+module.exports = {
+  nextConfig,
+  assetPrefix: isProd
+    ? "https://cdn.statically.io/gh/NaveenDA/aniebietudoh.github.io"
+    : "",
+};

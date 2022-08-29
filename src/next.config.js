@@ -8,6 +8,6 @@ const nextConfig = {
 module.exports = {
   nextConfig,
   assetPrefix: isProd
-    ? "https://cdn.statically.io/gh/NaveenDA/aniebietudoh.github.io"
+    ? "https://cdn.statically.io/gh/aniebietudoh/aniebietudoh.github.io/gh-pages/"
     : "",
 };

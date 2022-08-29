@@ -22,9 +22,10 @@ const About = () => {
       <Flex mt="80px">
         <Box w={["100%", "65%"]} color={textBackground}>
           <Heading as="h3" size="xl" mb="20px" fontWeight="black">
-            <FiUser />I &apos; m Aniebiet Udoh Robert.
+            <FiUser />
+            I&apos;m Aniebiet Udoh Robert.
           </Heading>
-          <Box pr="0" fontWeight="normal" fontSize="md">
+          <Box pr="0" fontWeight="normal" fontSize="lg">
             <Text mb="4">
               A Full-stack software engineer and AppSec enthusiast.
             </Text>

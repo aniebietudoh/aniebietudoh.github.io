@@ -28,16 +28,16 @@ export default function Home({ posts }) {
     <div>
       <Flex color="white" mt="100px" mb="50px">
         <Box w={["100%", "65%"]} color={textBackground}>
-          <Heading as="h3" size="xl" mb="20px" fontWeight="black">
-            Hi, I &apos; m Aniebiet.
+          <Heading as="h3" size="2xl" mb="20px" fontWeight="black">
+            Hi, I&apos;m Aniebiet.
           </Heading>
-          <Box pr="0" fontWeight="normal" fontSize="md">
+          <Box pr="0" fontWeight="normal" fontSize="xl">
             <Text mb="4">
-              I &apos; m a Full-stack software engineer and AppSec enthusiast.
+              I&apos;m a Full-stack software engineer and AppSec enthusiast.
             </Text>
             <Text mb="4">
-              I &apos; ve helped startups rapidly build, iterate on, and launch
-              their ideas. <br />I possess a working style that leans towards
+              I&apos;ve helped startups rapidly build, iterate on, and launch
+              their ideas. I possess a working style that leans towards
               collaboration and quick delivery.
             </Text>
             <HStack spacing="10px" mt="10">
@@ -59,7 +59,7 @@ export default function Home({ posts }) {
                 boxSize="sm"
                 mt="0"
                 borderWidth="1px"
-                width="180px"
+                width="200px"
                 height="260px"
                 borderRadius="md"
                 boxShadow="dark-lg"
@@ -76,7 +76,7 @@ export default function Home({ posts }) {
           </Box>
         </Hide>
       </Flex>
-      <Box mt="70px">
+      <Box mt="100px">
         <Heading as="h3" size="lg" fontWeight="normal" mb="4">
           Latest Posts
         </Heading>
@@ -96,8 +96,8 @@ export default function Home({ posts }) {
                 {post.frontMatter.title}
               </Text>
               {post.frontMatter.tags.map((eachtag, index) => (
-                <Tag mr="2" key={index}>
-                  <Text fontSize="xs">{eachtag}</Text>
+                <Tag mr="2" key={index} colorScheme="teal" variant="solid">
+                  {eachtag}
                 </Tag>
               ))}
             </Box>
@@ -105,7 +105,7 @@ export default function Home({ posts }) {
         </SimpleGrid>
       </Box>
 
-      <Box mt="100px" mb="10px">
+      <Box mt="70px" mb="10px">
         <Heading as="h3" size="lg" mb="4" fontWeight="normal">
           Projects
         </Heading>
@@ -132,8 +132,8 @@ export default function Home({ posts }) {
 
         <Heading>Stay in touch</Heading>
         <Text mt="2">
-          I &apos; m open to work on exiting projects and collaborations. You
-          have something that might interest me?
+          I&apos;m open to work on exiting projects and collaborations. You have
+          something that might interest me?
         </Text>
         <Button mt="1" variant="outline" colorScheme="teal">
           Email Me

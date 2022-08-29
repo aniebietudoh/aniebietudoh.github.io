@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, SunIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
+import { BsPersonCircle } from "react-icons/bs";
 
 const Links = [
   { name: "About", url: "/about" },
@@ -30,7 +31,9 @@ export default function Navigation() {
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Flex alignItems={"center"}>
             <Box color="gray.500">
-              <NextLink href={"/"}>aniebiet udoh</NextLink>
+              <NextLink href={"/"} cursor="pointer">
+                <BsPersonCircle size={"30px"} />
+              </NextLink>
             </Box>
           </Flex>
 
@@ -69,7 +72,7 @@ export default function Navigation() {
             </Stack>
           </Box>
         ) : null}
-        <Divider border={"2px"} borderColor={"blackAlpha.300"} />
+        <Divider border={"1px"} borderColor={"blackAlpha.300"} />
       </Box>
     </>
   );

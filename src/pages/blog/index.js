@@ -50,9 +50,14 @@ export default function Blog({ posts }) {
               </Text>
 
               <HStack spacing={4}>
-                {post.frontMatter.tags.map((tag) => {
+                {post.frontMatter.tags.map((tag, index) => {
                   return (
-                    <Tag size={"lg"} variant="solid" colorScheme="teal">
+                    <Tag
+                      key={index}
+                      size={"lg"}
+                      variant="solid"
+                      colorScheme="teal"
+                    >
                       {tag}
                     </Tag>
                   );

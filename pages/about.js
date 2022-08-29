@@ -2,17 +2,12 @@ import {
   Spacer,
   Flex,
   Box,
-  Link,
   Image,
   Icon,
-  HStack,
-  useColorMode,
   useColorModeValue,
   Heading,
-  Button,
   Text,
   Hide,
-  List,
   ListItem,
   UnorderedList,
 } from "@chakra-ui/react";
@@ -27,18 +22,17 @@ const About = () => {
       <Flex mt="80px">
         <Box w={["100%", "65%"]} color={textBackground}>
           <Heading as="h3" size="xl" mb="20px" fontWeight="black">
-            <FiUser />
-            I'm Aniebiet Udoh Robert.{" "}
+            <FiUser />I &apos; m Aniebiet Udoh Robert.
           </Heading>
           <Box pr="0" fontWeight="normal" fontSize="md">
             <Text mb="4">
               A Full-stack software engineer and AppSec enthusiast.
             </Text>
             <Text mb="4">
-              Over the years, I've helped startups and medium scale businesses
-              rapidly build, iterate on, and launch and scale their ideas.{" "}
-              <br /> I possess a working style that leans towards collaboration
-              and quick delivery.
+              Over the years, I&apos;ve helped startups and medium scale
+              businesses rapidly build, iterate on, and launch and scale their
+              ideas. <br /> I possess a working style that leans towards
+              collaboration and quick delivery.
             </Text>
           </Box>
         </Box>

@@ -12,7 +12,6 @@ import {
   Icon,
   Button,
   Spacer,
-  Stack,
   Tag,
   Divider,
   Hide,
@@ -30,15 +29,15 @@ export default function Home({ posts }) {
       <Flex color="white" mt="100px" mb="50px">
         <Box w={["100%", "65%"]} color={textBackground}>
           <Heading as="h3" size="xl" mb="20px" fontWeight="black">
-            Hi, I'm Aniebiet.
+            Hi, I &apos; m Aniebiet.
           </Heading>
           <Box pr="0" fontWeight="normal" fontSize="md">
             <Text mb="4">
-              I'm a Full-stack software engineer and AppSec enthusiast.
+              I &apos; m a Full-stack software engineer and AppSec enthusiast.
             </Text>
             <Text mb="4">
-              I've helped startups rapidly build, iterate on, and launch their
-              ideas. <br />I possess a working style that leans towards
+              I &apos; ve helped startups rapidly build, iterate on, and launch
+              their ideas. <br />I possess a working style that leans towards
               collaboration and quick delivery.
             </Text>
             <HStack spacing="10px" mt="10">
@@ -133,8 +132,8 @@ export default function Home({ posts }) {
 
         <Heading>Stay in touch</Heading>
         <Text mt="2">
-          I'm open to work on exiting projects and collaborations. You have
-          something that might interest me?
+          I &apos; m open to work on exiting projects and collaborations. You
+          have something that might interest me?
         </Text>
         <Button mt="1" variant="outline" colorScheme="teal">
           Email Me

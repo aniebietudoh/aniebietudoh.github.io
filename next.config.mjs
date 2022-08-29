@@ -1,12 +1,21 @@
-/**
- * @type {import('next').NextConfig}
- */
+// /**
+//  * @type {import('next').NextConfig}
+//  */
+// const nextConfig = {
+//   images: {
+//     loader: "akamai",
+//     path: "",
+//   },
+//   assetPrefix: "./src",
+// };
+
+// export default nextConfig;
+
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    loader: "akamai",
-    path: "",
-  },
-  assetPrefix: "./src",
+  reactStrictMode: true,
+  swcMinify: true,
+  // useFileSystemPublicRoutes: false,
 };
 
-export default nextConfig;
+module.exports = nextConfig;

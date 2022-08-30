@@ -10,19 +10,19 @@ import {
   Hide,
   ListItem,
   UnorderedList,
+  Divider,
 } from "@chakra-ui/react";
-import { FiTool, FiCode, FiUser } from "react-icons/fi";
+import { FiTool, FiCode } from "react-icons/fi";
 import Tilt from "react-parallax-tilt";
 
 const About = () => {
-  const textBackground = useColorModeValue("blackAlpha.800", "gray.50");
+  const textBackground = useColorModeValue("gray.700", "gray.50");
 
   return (
     <>
       <Flex mt="80px">
         <Box w={["100%", "65%"]} color={textBackground}>
           <Heading as="h3" size="xl" mb="20px" fontWeight="black">
-            <FiUser />
             I&apos;m Aniebiet Udoh Robert.
           </Heading>
           <Box pr="0" fontWeight="normal" fontSize="lg">
@@ -66,11 +66,22 @@ const About = () => {
 
       <Box w={["100%", "65%"]} color={textBackground} mt="40px">
         <Box pr="0" fontWeight="normal" fontSize="md">
+          <Heading
+            size="md"
+            mb="20px"
+            fontWeight="black"
+            fontSize={"3xl"}
+            pt="50px"
+          >
+            My tools
+          </Heading>
+          <Divider mt={2} mb={4} border={"1px"} />
+
           <Heading as="h3" size="md" mb="20px" fontWeight="black">
             <Icon>
               <FiTool />
             </Icon>{" "}
-            Tools (hardware)
+            Hardware
           </Heading>
           <UnorderedList>
             <ListItem>
@@ -102,12 +113,12 @@ const About = () => {
           </UnorderedList>
         </Box>
 
-        <Box pr="0" fontWeight="normal" fontSize="md" mt="60px" mb="70px">
+        <Box pr="0" fontWeight="normal" fontSize="md" mt="60px" mb="60px">
           <Heading as="h3" size="md" mb="20px" fontWeight="black">
             <Icon>
               <FiCode />
             </Icon>{" "}
-            Tools (Software)
+            Software
           </Heading>
           <UnorderedList>
             <ListItem>
@@ -125,6 +136,13 @@ const About = () => {
 
             <ListItem>
               <Text fontWeight={"bold"} as={"span"}>
+                Design:
+              </Text>{" "}
+              Figma, Gimp
+            </ListItem>
+
+            <ListItem>
+              <Text fontWeight={"bold"} as={"span"}>
                 Music:
               </Text>{" "}
               Spotify
@@ -137,7 +155,7 @@ const About = () => {
             <Icon>
               <FiCode />
             </Icon>{" "}
-            Tools (Languages/ Frameworks / Cloud / Concepts)
+            Languages/ Frameworks / Cloud / Concepts
           </Heading>
           <UnorderedList>
             <ListItem>

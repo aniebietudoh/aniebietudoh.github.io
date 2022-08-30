@@ -23,7 +23,7 @@ import Tilt from "react-parallax-tilt";
 import { AiFillGithub, AiOutlineCoffee } from "react-icons/ai";
 
 export default function Home({ posts }) {
-  const textBackground = useColorModeValue("blackAlpha.800", "gray.50");
+  const textBackground = useColorModeValue("gray.700", "gray.100");
   return (
     <div>
       <Flex color="white" mt="100px" mb="50px">
@@ -59,7 +59,7 @@ export default function Home({ posts }) {
                 boxSize="sm"
                 mt="0"
                 borderWidth="1px"
-                width="200px"
+                width="240px"
                 height="260px"
                 borderRadius="md"
                 boxShadow="dark-lg"
@@ -89,7 +89,8 @@ export default function Home({ posts }) {
               p="5"
               border="1px"
               borderColor="#b4b0b0"
-              bg={"blackAlpha.50"}
+              bg={"gray.50"}
+              color={textBackground}
             >
               <Text color="teal.800">{post.frontMatter.date}</Text>
               <Text pb="2" height="60px" fontWeight="bold" fontSize="sm">
@@ -118,6 +119,7 @@ export default function Home({ posts }) {
               p="5"
               border="1px"
               borderColor="teal.600"
+              color={textBackground}
             >
               <Text color="teal.800">{post.frontMatter.date}</Text>
               <Text pb="2" height="60px" fontWeight="bold" fontSize="sm">
@@ -127,7 +129,7 @@ export default function Home({ posts }) {
           ))}
         </SimpleGrid>
       </Box>
-      <Box mt="20" pt="50px" mb="60px">
+      <Box mt="20" pt="50px" mb="60px" color={"gray.700"}>
         <Divider colorScheme="teal" mb="40px" />
 
         <Heading>Stay in touch</Heading>

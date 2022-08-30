@@ -90,7 +90,7 @@ export default function Home({ posts }) {
               border="1px"
               borderColor="#b4b0b0"
               bg={"gray.50"}
-              color={textBackground}
+              color={"gray.700"}
             >
               <Text color="teal.800">{post.frontMatter.date}</Text>
               <Text pb="2" height="60px" fontWeight="bold" fontSize="sm">

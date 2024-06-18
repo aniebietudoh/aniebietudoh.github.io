@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Home on </title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content in Home on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 23 Sep 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to Build a Serverless API using AWS lambda, API gateway, and DynamoDB</title>
+      <link>http://localhost:1313/blog/build-api-using-aws-serverless/</link>
+      <pubDate>Fri, 23 Sep 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/blog/build-api-using-aws-serverless/</guid>
+      <description>Build a Serverless API using AWS lambda, API gateway, and DynamoDB.</description>
+    </item>
+    <item>
+      <title>About</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/</guid>
+      <description>I am currently working at as a software engineer contracting for early stage startups.&#xA;Feel free to have a look at my LinkedIn or Github.&#xA;I also livestream on twitch Twitch where I build fun stuff with rust(lang) and typescript</description>
+    </item>
+  </channel>
+</rss>

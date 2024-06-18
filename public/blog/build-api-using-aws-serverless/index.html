@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en-us"
+  dir="ltr">
+
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width"><meta name="description" content="A walkthrough for creating a serverless TODO application with the serverless framework, AWS Lambda, and DynamoDB for persistence." />
+
+<title>
+    
+    How to Build a Serverless API using AWS lambda, API gateway, and DynamoDB | 
+    
+</title>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.f69b4a5b91a9bc416804eda1f19d04210551b843d47318bf1913d7edce1504fb.css" media="all">
+
+
+
+  </head>
+
+  
+
+  
+  
+  
+
+  <body class="auto">
+
+    <div class="content">
+      <header>
+        
+
+<div class="header">
+    <h1 class="header-title"></h1>
+
+    <div class="flex">
+        
+
+        
+        
+        <p class="small ">
+            <a href="/">
+                /home
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/blog">
+                /blog
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/about">
+                /about
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/projects">
+                /projects
+            </a>
+        </p>
+        
+        
+    </div>
+
+</div>
+      </header>
+
+      <main class="main">
+        
+
+
+
+
+<div class="breadcrumbs">
+    
+    <a href="/">Home</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a href="/blog/">Blogs</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a class="breadcrumbs-current" href="/blog/build-api-using-aws-serverless/">How to Build a Serverless API using AWS lambda, API gateway, and DynamoDB</a>
+</div>
+
+
+<div  class="autonumber" >
+
+  <div class="single-intro-container">
+
+    
+
+    <h1 class="single-title">How to Build a Serverless API using AWS lambda, API gateway, and DynamoDB</h1>
+    
+    <p class="single-summary">Build a Serverless API using AWS lambda, API gateway, and DynamoDB.</p>
+    
+
+    
+
+    <p class="single-readtime">
+      
+      
+      
+      <time datetime="2022-09-23T00:00:00&#43;00:00">September 23, 2022</time>
+      
+
+      
+      &nbsp; · &nbsp;
+      14 min read
+      
+    </p>
+
+  </div>
+
+  
+
+  
+
+  
+  <aside class="toc">
+    <p><strong>Table of contents</strong></p>
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#outline">Outline</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#what-is-serverless">What is Serverless?</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#step-1---creating-an-aws-account-and-setting-up-aws-cli">Step 1 - Creating an AWS account and Setting up AWS CLI</a>
+      <ul>
+        <li><a href="#create-aws-account">Create AWS Account</a></li>
+        <li><a href="#create-aws-iam-user">Create AWS IAM User</a></li>
+        <li><a href="#install-and-configure-the-aws-cli-command-line-interface">Install and configure the AWS CLI (Command Line Interface)</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-2---install-and-setup-serverless-framework">Step 2 - Install and Setup Serverless Framework</a>
+      <ul>
+        <li><a href="#what-is-serverless-framework">What is Serverless Framework?</a></li>
+        <li><a href="#install-the-serverless-framework">Install the Serverless Framework</a></li>
+        <li><a href="#create-a-serverless-boilerplate-application">Create a serverless boilerplate application</a></li>
+        <li><a href="#deploy-and-test-default-bootstrapped-api">Deploy and test default bootstrapped API</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-3---connecting-dynamodb-and-creating-lambda-functions">Step 3 - Connecting DynamoDB and Creating Lambda Functions</a>
+      <ul>
+        <li><a href="#provisioning-our-database">Provisioning our Database</a></li>
+        <li><a href="#create-the-serverless-functions-for-our-todo-api">Create the Serverless Functions for our todo API</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </aside>
+  
+
+  
+
+  <div class="single-content">
+    <h1 id="how-to-build-a-serverless-api-using-aws-lambda-api-gateway-and-dynamodb">How to Build a Serverless API using AWS lambda, API gateway, and DynamoDB</h1>
+<h3 id="outline">Outline</h3>
+<ul>
+<li>Introduction
+<ul>
+<li>What is serverless</li>
+<li>How it works</li>
+</ul>
+</li>
+<li>Prerequisites</li>
+<li>Steps
+<ul>
+<li>Create an AWS account and setup AWS CLI
+<ul>
+<li>create an account</li>
+<li>add a user for CLI and give programmatic access (IAM)</li>
+</ul>
+</li>
+<li>Install and setup serverless framework
+<ul>
+<li>What is a serverless framework</li>
+<li>Deploy the initial serverless app and test the endpoint</li>
+</ul>
+</li>
+<li>Connecting DynamoDB and Creating Lambda Functions
+<ul>
+<li>Provisioning Database</li>
+<li>Create the serverless functions for our API</li>
+<li>Testing our functions</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Conclusion</li>
+</ul>
+<hr>
+<h1 id="introduction">Introduction</h1>
+<p>Recently, I was tasked with building a serverless application for an NFT valuation service, this was not my first time working with the serverless framework, and I’ve always enjoyed the process of building serverless applications.</p>
+<p>In this tutorial, I show how to create a serverless API, hoping you’d enjoy the process as much as do.</p>
+<p>This tutorial walks through creating a serverless TODO application with the serverless framework, AWS Lambda, and DynamoDB for persistence.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Basic understanding of ES6 JavaScipt</li>
+<li>You have Node.js Installed</li>
+<li>An AWS account</li>
+</ul>
+<h3 id="what-is-serverless">What is Serverless?</h3>
+<p>Serverless architecture is a pattern of providing backend services on demand without application developers needing to have knowledge or worrying about the underlying servers.</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>To explain further, take the analogy of an automated teller machine (ATM) for example, an ATM machine may have a server running 24/7, and at any time, it&rsquo;s always ready to perform its task.</p>
+<p>But if you think again, at night when most people are asleep, the ATM machine servers are still running and still acquiring costs, even though it&rsquo;s not being used.</p>
+<p>Now if the machine ran on a serverless architecture, the servers would not need to be up and running always, it&rsquo;ll only become active if action is carried out, for example when a user wants to make withdrawals or transfers,  then the required function <code>withdraw</code> or <code>transfer</code> will run and that&rsquo;s it, then the server goes back to sleep.</p>
+<h1 id="building-the-api">Building the API</h1>
+<h2 id="step-1---creating-an-aws-account-and-setting-up-aws-cli">Step 1 - Creating an AWS account and Setting up AWS CLI</h2>
+<p>We are going to:</p>
+<ul>
+<li>Create an account on AWS (Amazon Web Services)</li>
+<li>Create an IAM user</li>
+<li>Install and configure the AWS CLI (Command Line Interface)</li>
+</ul>
+<p>This is a simple step - if it’s your first time using AWS, I recommend reading through the <a href="https://aws.amazon.com/getting-started/">Amazon Getting Started</a></p>
+<h3 id="create-aws-account">Create AWS Account</h3>
+<p>Create an AWS account by going to <a href="https://aws.amazon.com/">https://aws.amazon.com/</a> and clicking on the Create an AWS  account button at the top right.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="aws sign up.PNG" src=" How%20to%20Build%20a%20Serverless%20API%20using%20AWS%20lambda,%20AP%20e5ed0a4536d84f648e7db8f8b4c904bb/aws_sign_up.png">
+    </div>
+
+    
+</figure></p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>If you plan to experiment further, please ensure to check that you are still within the free tier to avoid being charged.</p>
+<p>Now that we are done creating an account, we will be interacting with AWS from the command line on our local computer via the AWS CLI</p>
+<p>To make that possible, we need a user credential which we’ll give to AWS CLI to enable it to interact with our AWS account, so we need to create an IAM user account.</p>
+<h3 id="create-aws-iam-user">Create AWS IAM User</h3>
+<p>While logged in to your AWS account, enter “IAM” into the search bar at the top and click on the IAM result</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="IAM.PNG" src=" How%20to%20Build%20a%20Serverless%20API%20using%20AWS%20lambda,%20AP%20e5ed0a4536d84f648e7db8f8b4c904bb/IAM.png">
+    </div>
+
+    
+</figure></p>
+<p>On the IAM screen, click on <strong>Users</strong> and click <strong>Add users</strong> in the resulting screen</p>
+<p>We enter any username we want to use, in my case, I entered “<strong>todoapp-dev</strong>”, then click on the checkbox to mark “<strong>Access key - Programmatic access”.</strong> This is important because we will be interacting with our AWS account locally on our computer using the AWS CLI.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="user1.PNG" src=" How%20to%20Build%20a%20Serverless%20API%20using%20AWS%20lambda,%20AP%20e5ed0a4536d84f648e7db8f8b4c904bb/user1.png">
+    </div>
+
+    
+</figure></p>
+<p>Click “<strong>Next: Permissions</strong>” at the bottom of the screen to proceed to the next step.</p>
+<p>On the next screen, click “<strong>Attach existing policies directly</strong>” and mark Check “<strong>AdministratorAccess</strong>” <em>(Note: this is not recommended, you only want to grant access to the specific AWS services you’d be using)</em></p>
+<p>After that, Click “<strong>Next: tags</strong>” leave that as it is, click “<strong>Next: Review</strong>” and finally click <strong>Create user</strong></p>
+<p>We are then presented with a screen showing our credentials: <strong>Access key ID</strong> and <strong>Secret access key</strong>.</p>
+<p>These are the credentials we’ll use to interact with our account from the AWS CLI, don&rsquo;t lose them.</p>
+<p>You can copy them somewhere or just leave the screen as it is, we’ll come back to it.</p>
+<h3 id="install-and-configure-the-aws-cli-command-line-interface">Install and configure the AWS CLI (Command Line Interface)</h3>
+<p>Now, we need to install the AWS CLI. To install, use the command below</p>
+<p>For Linux:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ curl <span style="color:#666;font-style:italic">&#34;https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip&#34;</span> -o <span style="color:#666;font-style:italic">&#34;awscliv2.zip&#34;</span>
+</span></span><span style="display:flex;"><span>$ unzip awscliv2.zip
+</span></span><span style="display:flex;"><span>$ sudo ./aws/install
+</span></span></code></pre></div><p>For windows and macOS you can use the installers below. Download the installer for your platform and run them.</p>
+<p>Windows: <a href="https://awscli.amazonaws.com/AWSCLIV2.msi">https://awscli.amazonaws.com/AWSCLIV2.msi</a>
+macOS: <a href="https://awscli.amazonaws.com/AWSCLIV2.pkg">https://awscli.amazonaws.com/AWSCLIV2.pkg</a></p>
+<p>To confirm that it&rsquo;s installed properly in the command line, issue the command</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ aws --version
+</span></span><span style="display:flex;"><span>aws-cli/2.7.0 Python/3.9.11 Linux/5.10.16.3-microsoft-standard-WSL2 exe/x86_64.ubuntu.20 prompt/off
+</span></span></code></pre></div><p>We should see a result similar to the above. Well done.</p>
+<p>Next, we need to configure AWS CLI.</p>
+<p>To do so, in the command line enter the command below</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ aws configure
+</span></span></code></pre></div><p>We will be asked for our <strong>AWS Access Key ID</strong>, copy the key gotten from creating an IAM user and paste it there, and press enter, we’ll then be asked for a <strong>secret key</strong>, do the same, but this time copy the hidden secret key.</p>
+<p>For the region and any other prompt, we just press enter leaving them at “None” till we are then back to normal CLI prompt.</p>
+<p>Congratulations, we have successfully configured our AWS CLI. We continue to the next step.</p>
+<h2 id="step-2---install-and-setup-serverless-framework">Step 2 - Install and Setup Serverless Framework</h2>
+<p>We are going to:</p>
+<ul>
+<li>Install serverless framework</li>
+<li>Create a serverless boilerplate application</li>
+<li>Deploy and test default bootstrapped API.</li>
+</ul>
+<h3 id="what-is-serverless-framework">What is Serverless Framework?</h3>
+<p>The serverless framework is an open-source NPM package that makes deploying functions to various serverless cloud hosting providers (in our case AWS lambda) easy.</p>
+<p>With it, we can declare functions and the events that trigger those functions, and any other setups we need in a configuration file.</p>
+<h3 id="install-the-serverless-framework">Install the Serverless Framework</h3>
+<p>To install the serverless framework, ensure you have node.js installed, then in your command line, enter the command below</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ npm install -g serverless
+</span></span></code></pre></div><p>The command above installed the serverless CLI package globally and we can check that it’s installed properly by issuing the command</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ serverless --version
+</span></span><span style="display:flex;"><span>Framework Core: 2.72.2
+</span></span><span style="display:flex;"><span>Plugin: 5.5.4
+</span></span><span style="display:flex;"><span>SDK: 4.3.2
+</span></span><span style="display:flex;"><span>Components: 3.18.2
+</span></span></code></pre></div><h3 id="create-a-serverless-boilerplate-application">Create a serverless boilerplate application</h3>
+<p>What that out of the way, to test that everything is wired up properly for us to start writing our functions, we issue the command below in our command line to bootstrap a demo serverless REST API</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ serverless
+</span></span></code></pre></div><p>We would be asked various questions as shown below</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="screely-1663646224203.png" src=" How%20to%20Build%20a%20Serverless%20API%20using%20AWS%20lambda,%20AP%20e5ed0a4536d84f648e7db8f8b4c904bb/screely-1663646224203.png">
+    </div>
+
+    
+</figure></p>
+<p>Select the AWS - Node.js - HTTP API, It’ll as for an app name, and give the app a name, in my case, I used “<strong>serverless-todo-app</strong>”. It’ll then set up the project.</p>
+<p>We’ll then be asked a few more questions.</p>
+<p>For login/register to the serverless dashboard, for the sake of this project, we select “no”.</p>
+<p>For deploying the project, select “no” for now too</p>
+<p>After that, we are good to go.</p>
+<p>CD into the project folder and open in vscode</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ <span style="font-weight:bold;font-style:italic">cd</span> serverless-todo-app
+</span></span><span style="display:flex;"><span>$ code .
+</span></span></code></pre></div><p>We can now see the contents of the boilerplate application, specifically, the “<strong>handler.js</strong>” and “<strong>serverless.yml</strong>” files. We will look into those later.</p>
+<h3 id="deploy-and-test-default-bootstrapped-api">Deploy and test default bootstrapped API</h3>
+<p>Let&rsquo;s now deploy our demo app to see that it works.</p>
+<p>In the project directory, we issue the command</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ serverless deploy
+</span></span></code></pre></div><p>After a few seconds, you will be presented with an <strong>endpoint</strong> URL similar to the one below, among other information</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>https://53df424gq7.execute-api.us-east-1.amazonaws.com/
+</span></span></code></pre></div><p>We simply go to that URL in our browser, you should see a result similar to the one below.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="screely-1663645991222.png" src=" How%20to%20Build%20a%20Serverless%20API%20using%20AWS%20lambda,%20AP%20e5ed0a4536d84f648e7db8f8b4c904bb/screely-1663645991222.png">
+    </div>
+
+    
+</figure></p>
+<p>If you see it, it means that our function is working and everything is wired up properly.
+We can go back into AWS and in the top search box, we enter Lambda and click on the result, we should now see that a lambda function has been created for us automatically.</p>
+<p>That&rsquo;s as a result of the deployment we just did.</p>
+<p>We can now begin writing custom functions and persisting our data into a database.</p>
+<h2 id="step-3---connecting-dynamodb-and-creating-lambda-functions">Step 3 - Connecting DynamoDB and Creating Lambda Functions</h2>
+<p>We are going to:</p>
+<ul>
+<li>Provision our database</li>
+<li>Create the serverless functions for our todo API</li>
+<li>Deploy Test our functions</li>
+</ul>
+<p>We are creating a simple todo API and we need the data to be stored in a database for persistence.</p>
+<p>Here, leverage DynamoDB, a NoSQL database provided by AWS.</p>
+<h3 id="provisioning-our-database">Provisioning our Database</h3>
+<p>With the serverless framework, we can define the AWS resources we want to use. We do that in the <strong>serverless.yml</strong> file provided for us, and the serverless framework will provision that resource for us on AWS, so we don&rsquo;t need to login into the AWS web interface to provision the resource.</p>
+<p>Taking a look at the serverless.yml file inside our project folder, we have the following</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="screely-1663674691050.png" src=" How%20to%20Build%20a%20Serverless%20API%20using%20AWS%20lambda,%20AP%20e5ed0a4536d84f648e7db8f8b4c904bb/screely-1663674691050.png">
+    </div>
+
+    
+</figure></p>
+<p>We will now add resources, in our case the database we want to use by adding a resources section to the file. <em>Take note of the indentation.</em></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#666;font-weight:bold;font-style:italic">...</span>
+</span></span><span style="display:flex;"><span>resources:
+</span></span><span style="display:flex;"><span>  Resources:
+</span></span><span style="display:flex;"><span>    TodoAPI: # We set the resource name: here we use TodoAPI as the name
+</span></span><span style="display:flex;"><span>      Type: AWS::DynamoDB::Table <span style="color:#888;font-style:italic"># Type of resource we are provisioning, in this case, a DynamoDB Table</span>
+</span></span><span style="display:flex;"><span>      Properties: <span style="color:#888;font-style:italic"># The properties for the resource</span>
+</span></span><span style="display:flex;"><span>        TableName: TodoApiTable <span style="color:#888;font-style:italic"># Here we set the table name to &#34;TodoApiTable</span>
+</span></span><span style="display:flex;"><span>        BillingMode: PAY_PER_REQUEST <span style="color:#888;font-style:italic"># The billing mode is set here</span>
+</span></span><span style="display:flex;"><span>        AttributeDefinitions: <span style="color:#888;font-style:italic"># Represents an attribute for describing the key schema for the table and indexes.</span>
+</span></span><span style="display:flex;"><span>          - AttributeName: id <span style="color:#888;font-style:italic"># An ID to Identify each record in a unique way</span>
+</span></span><span style="display:flex;"><span>            AttributeType: S <span style="color:#888;font-style:italic"># The attribute is of type String, hence the S</span>
+</span></span><span style="display:flex;"><span>        KeySchema: <span style="color:#888;font-style:italic"># Specifies the attributes that make up the primary key for a table or an index</span>
+</span></span><span style="display:flex;"><span>          - AttributeName: id <span style="color:#888;font-style:italic"># The name of the key attribute</span>
+</span></span><span style="display:flex;"><span>            KeyType: HASH <span style="color:#888;font-style:italic"># The ID as the key</span>
+</span></span></code></pre></div><p>The code above is what is known as AWS cloud formation.</p>
+<p>Cloud Formation is basically <strong>a method of provisioning AWS infrastructure using code.</strong></p>
+<p>In the code above, we are provisioning an AWS resource to be used by our API, in this case, the DynamoDB.</p>
+<p>We set the name and type of the database “<strong>TodoAPI</strong>”, and give it several properties.
+We then went on to set a table name, the billing mode, and the attributes for the table.</p>
+<p>Don&rsquo;t worry about the BillingMode as “PAY_PER_REQUEST”. AWS gives 1 million free requests, and we are unlikely to exceed that in this tutorial.</p>
+<p>Finally, for the attributes, we specify that we need a primary key for the table and specify the type of the primary key.</p>
+<p>To test this we just need to save the file and re-deploy the application</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ serverless deploy
+</span></span></code></pre></div><p>To see that this works, we login to our AWS account, and in the search box, we search for “<strong>DynamoDB</strong>” click on it in the result, and click on tables on the left navigation section.</p>
+<p>We can see that a table has been created for us automatically bearing our table name.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="screely-1663677720395.png" src=" How%20to%20Build%20a%20Serverless%20API%20using%20AWS%20lambda,%20AP%20e5ed0a4536d84f648e7db8f8b4c904bb/screely-1663677720395.png">
+    </div>
+
+    
+</figure></p>
+<p>Now, with most of the setup work out of the way, we can begin to write the functions for our API.</p>
+<h3 id="create-the-serverless-functions-for-our-todo-api">Create the Serverless Functions for our todo API</h3>
+<p>What are serverless functions? they are basically just regular functions that we write, which performs, most of the time, a single task.</p>
+<p>We then deploy or send these functions to cloud providers which then store them and can run/call them through certain events or triggers.</p>
+<p>Let us change the structure of our boilerplate API a bit to make the project more modular.</p>
+<p>Currently, the folder structure looks as seen below</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="screely-1663680176904.png" src=" How%20to%20Build%20a%20Serverless%20API%20using%20AWS%20lambda,%20AP%20e5ed0a4536d84f648e7db8f8b4c904bb/screely-1663680176904.png">
+    </div>
+
+    
+</figure></p>
+<p>We create a source folder “src” and inside the source folder, we create another folder “handlers”.</p>
+<p>Inside the project directory in your command line, enter the following command.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ mkdir src &amp;&amp; <span style="font-weight:bold;font-style:italic">cd</span> src
+</span></span><span style="display:flex;"><span>$ mkdir handlers
+</span></span></code></pre></div><p>We then move the handler.js file into the handlers folder and rename it to createTodo.js.</p>
+<p>The folder structure should now look like below</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="screely-1663681039480.png" src=" How%20to%20Build%20a%20Serverless%20API%20using%20AWS%20lambda,%20AP%20e5ed0a4536d84f648e7db8f8b4c904bb/screely-1663681039480.png">
+    </div>
+
+    
+</figure></p>
+<p><strong>Writing the createTodo Function</strong></p>
+<p>Currently, in our createTodo.js file, we have the following contents which basically contain the code that runs when we tested our bootstrapped API.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>module.exports.hello = <span style="font-weight:bold;text-decoration:underline">async</span> (event) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold;text-decoration:underline">return</span> {
+</span></span><span style="display:flex;"><span>    statusCode: 200,
+</span></span><span style="display:flex;"><span>    body: JSON.stringify(
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        message: <span style="color:#666;font-style:italic">&#34;Go Serverless v2.0! Your function executed successfully!&#34;</span>,
+</span></span><span style="display:flex;"><span>        input: event,
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold;text-decoration:underline">null</span>,
+</span></span><span style="display:flex;"><span>      2
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>What the code above does is respond to a get request and return the request event details as JSON to the browser or client.</p>
+<p>Before we proceed, we need to install a few packages to enable us to build the createTodo function.</p>
+<p>We need two packages, one for generating a unique ID, and the other is AWS SDK for interacting with AWS from our function.</p>
+<p>To install these, issue the following command in your command line, in the project directory.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ npm init <span style="color:#888;font-style:italic"># This generates a package.json file for us(Press enter to accept default values) </span>
+</span></span><span style="display:flex;"><span>$ npm install aws-sdk uuid <span style="color:#888;font-style:italic"># this installs the aws-sdk and uuid packages from npm</span>
+</span></span></code></pre></div><p>With that done, we now replace the code in createTodo.js with the following</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">const</span> AWS = require(<span style="color:#666;font-style:italic">&#39;aws-sdk&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">const</span> { v4 } = require(<span style="color:#666;font-style:italic">&#39;uuid&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">const</span> createTodo = <span style="font-weight:bold;text-decoration:underline">async</span> (event) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold;text-decoration:underline">const</span> dynamodb = <span style="font-weight:bold;text-decoration:underline">new</span> AWS.DynamoDB.DocumentClient() <span style="color:#888;font-style:italic">// Connect to AWS DynamoDB
+</span></span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold;text-decoration:underline">const</span> { todo } = JSON.parse(event.body)
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold;text-decoration:underline">const</span> id = v4()
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold;text-decoration:underline">const</span> createdAt = <span style="font-weight:bold;text-decoration:underline">new</span> <span style="font-weight:bold;font-style:italic">Date</span>().toISOString()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold;text-decoration:underline">const</span> newTodo = {
+</span></span><span style="display:flex;"><span>    id,
+</span></span><span style="display:flex;"><span>    todo,
+</span></span><span style="display:flex;"><span>    createdAt,
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic">// Inserts new data (todo) into the DynamoDB
+</span></span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic"></span>  <span style="font-weight:bold;text-decoration:underline">await</span> dynamodb.put({
+</span></span><span style="display:flex;"><span>    TableName: <span style="color:#666;font-style:italic">&#34;TodoApiTable&#34;</span>,
+</span></span><span style="display:flex;"><span>    Item: newTodo
+</span></span><span style="display:flex;"><span>  }).promise()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic">// Returns the newly added todo
+</span></span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic"></span>  <span style="font-weight:bold;text-decoration:underline">return</span> {
+</span></span><span style="display:flex;"><span>    statusCode: 200,
+</span></span><span style="display:flex;"><span>    body: JSON.stringify(newTodo),
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>module.exports = {
+</span></span><span style="display:flex;"><span>  handler: createTodo
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In the code above, we first require the needed libraries, then we create a function to actually do the todo creation.</p>
+<p>Inside the function, we first connect to dynamoDB by creating an instance of the connection using the aws-sdk.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>  <span style="font-weight:bold;text-decoration:underline">const</span> dynamodb = <span style="font-weight:bold;text-decoration:underline">new</span> AWS.DynamoDB.DocumentClient() <span style="color:#888;font-style:italic">// Connect to AWS DynamoDB
+</span></span></span></code></pre></div><p>We then get the todo data from the event body. The <strong>event</strong> basically contains all the information from the request.</p>
+<p>Next, we create an object containing the todo data coming from the event body and attach the genetated <strong>id</strong> and <strong>createdAt</strong> properties.</p>
+<p>Next, using the database connection handler “dynamodb” we add a new todo into the “TodoApiTable”</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>...  
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">await</span> dynamodb.put({
+</span></span><span style="display:flex;"><span>    TableName: <span style="color:#666;font-style:italic">&#34;TodoApiTable&#34;</span>,
+</span></span><span style="display:flex;"><span>    Item: newTodo
+</span></span><span style="display:flex;"><span>  }).promise()
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>Finally, we return a status code and the body and export the handler for creating todo.</p>
+<p><strong>Writing the getTodos Function</strong></p>
+<p>We create another file “<strong>getTodos.js</strong>” inside our handlers folder. The getTodos get all the previously saved todo from our database.</p>
+<p>See the code below.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">const</span> AWS = require(<span style="color:#666;font-style:italic">&#39;aws-sdk&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">const</span> getTodos = <span style="font-weight:bold;text-decoration:underline">async</span> (event) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold;text-decoration:underline">const</span> dynamodb = <span style="font-weight:bold;text-decoration:underline">new</span> AWS.DynamoDB.DocumentClient()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold;font-style:italic;text-decoration:underline">let</span> todos;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold;text-decoration:underline">try</span> {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;text-decoration:underline">const</span> results = <span style="font-weight:bold;text-decoration:underline">await</span> dynamodb.scan({TableName: <span style="color:#666;font-style:italic">&#34;TodoApiTable&#34;</span>}).promise()
+</span></span><span style="display:flex;"><span>    todos = results.Items
+</span></span><span style="display:flex;"><span>  } <span style="font-weight:bold;text-decoration:underline">catch</span> (error) {
+</span></span><span style="display:flex;"><span>      console.log(error)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold;text-decoration:underline">return</span> {
+</span></span><span style="display:flex;"><span>    statusCode: 200,
+</span></span><span style="display:flex;"><span>    body: JSON.stringify(todos),
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>module.exports = {
+</span></span><span style="display:flex;"><span>  handler: getTodos
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The code is similar to the <strong>createTodo.js</strong> code.</p>
+<p>We start by importing the required libraries, we then use the <code>AWS sdk</code> client to get a connection to the database,</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>  <span style="font-weight:bold;text-decoration:underline">const</span> dynamodb = <span style="font-weight:bold;text-decoration:underline">new</span> AWS.DynamoDB.DocumentClient()
+</span></span></code></pre></div><p>The major difference from the code for <code>createTodo</code> is that, in this case, we are searching the database for the saved todo, so we use the dynamoDB scan method, and give it a table name to search from.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">const</span> results = <span style="font-weight:bold;text-decoration:underline">await</span> dynamodb.scan({TableName: <span style="color:#666;font-style:italic">&#34;TodoApiTable&#34;</span>}).promise()
+</span></span></code></pre></div><p>And finally, we return the todos, with status a status code.</p>
+<p>Now, we need to add our exported handler functions and set permissions so our functions can access dynamoDB.</p>
+<p>We do that in the <code>serverless.yml</code> file.</p>
+<p>Update it to look like seen below.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>service: serverless-todo-app
+</span></span><span style="display:flex;"><span>frameworkVersion: <span style="color:#666;font-style:italic">&#34;2 || 3&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>provider:
+</span></span><span style="display:flex;"><span>  name: aws
+</span></span><span style="display:flex;"><span>  runtime: nodejs12.x
+</span></span><span style="display:flex;"><span>  lambdaHashingVersion: <span style="color:#666;font-style:italic">&#34;20201221&#34;</span>
+</span></span><span style="display:flex;"><span>	region: <span style="color:#666;font-style:italic">&#34;us-east-1&#34;</span> <span style="color:#888;font-style:italic"># Replace the region here with your own</span>
+</span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic"># Set permission for our functions</span>
+</span></span><span style="display:flex;"><span>  iamRoleStatements:
+</span></span><span style="display:flex;"><span>  - Effect: Allow
+</span></span><span style="display:flex;"><span>    Action:
+</span></span><span style="display:flex;"><span>      - dynamodb:* <span style="color:#888;font-style:italic"># Perform all database actions (create/update/delete)</span>
+</span></span><span style="display:flex;"><span>    Resource:
+</span></span><span style="display:flex;"><span>      - arn:aws:dynamodb:us-east-1:301048034781:table/TodoApiTable <span style="color:#888;font-style:italic"># Replace with your table unique identefier (ARN). It&#39;s found on AWS and check your table details</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic"># Add function handlers</span>
+</span></span><span style="display:flex;"><span>functions:
+</span></span><span style="display:flex;"><span>  createTodo:
+</span></span><span style="display:flex;"><span>    handler: src/handlers/createTodo.handler
+</span></span><span style="display:flex;"><span>    events:
+</span></span><span style="display:flex;"><span>      - httpApi:
+</span></span><span style="display:flex;"><span>          path: /
+</span></span><span style="display:flex;"><span>          method: post
+</span></span><span style="display:flex;"><span>  fetchTodos:
+</span></span><span style="display:flex;"><span>    handler: src/handlers/getTodos.handler
+</span></span><span style="display:flex;"><span>    events:
+</span></span><span style="display:flex;"><span>      - httpApi:
+</span></span><span style="display:flex;"><span>          path: /todos
+</span></span><span style="display:flex;"><span>          method: get
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>resources:
+</span></span><span style="display:flex;"><span>  Resources:
+</span></span><span style="display:flex;"><span>    TodoAPI: # We set the resource name: here we use TodoAPI as the name
+</span></span><span style="display:flex;"><span>      Type: AWS::DynamoDB::Table <span style="color:#888;font-style:italic"># Type of resource we are provisioning, in this case, a DynamoDB Table</span>
+</span></span><span style="display:flex;"><span>      Properties: <span style="color:#888;font-style:italic"># The properties for the resource</span>
+</span></span><span style="display:flex;"><span>        TableName: TodoApiTable <span style="color:#888;font-style:italic"># Here we set the table name to &#34;TodoApiTable</span>
+</span></span><span style="display:flex;"><span>        BillingMode: PAY_PER_REQUEST <span style="color:#888;font-style:italic"># The billing mode is set here</span>
+</span></span><span style="display:flex;"><span>        AttributeDefinitions: <span style="color:#888;font-style:italic"># Represents an attribute for describing the key schema for the table and indexes.</span>
+</span></span><span style="display:flex;"><span>          - AttributeName: id <span style="color:#888;font-style:italic"># An ID to Identify each record in a unique way</span>
+</span></span><span style="display:flex;"><span>            AttributeType: S <span style="color:#888;font-style:italic"># The attribute is of type String, hence the S</span>
+</span></span><span style="display:flex;"><span>        KeySchema: <span style="color:#888;font-style:italic"># Specifies the attributes that make up the primary key for a table or an index</span>
+</span></span><span style="display:flex;"><span>          - AttributeName: id <span style="color:#888;font-style:italic"># The name of the key attribute</span>
+</span></span><span style="display:flex;"><span>            KeyType: HASH <span style="color:#888;font-style:italic"># The ID as the key</span>
+</span></span></code></pre></div><p><strong>Deploying and Testing our Functions</strong></p>
+<p>To deploy our functions it’s as easy as using the command we used previously for deployment.
+Having saved our code, we enter the command below into our CLI to deploy our API</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ serverless deploy
+</span></span></code></pre></div><p>After a few seconds, we get a link to our endpoint, yours will look a little different.</p>
+<p><em>Note: I omitted some characters in my endpoint below, cause it’s not safe showing you mine.</em></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>endpoints:
+</span></span><span style="display:flex;"><span>	https://...zfq96rti.execute-api.us-east-1.amazonaws.com
+</span></span><span style="display:flex;"><span>	https://...zfq96rti.execute-api.us-east-1.amazonaws.com/todos
+</span></span></code></pre></div><p>We can now test our endpoint using postman</p>
+<p>Testing createTodo:</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="screely-1663936387674-create.png" src=" How%20to%20Build%20a%20Serverless%20API%20using%20AWS%20lambda,%20AP%20e5ed0a4536d84f648e7db8f8b4c904bb/screely-1663936387674-create.png">
+    </div>
+
+    
+</figure></p>
+<p>Testing getTodos</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="screely-1663936406385-get.png" src=" How%20to%20Build%20a%20Serverless%20API%20using%20AWS%20lambda,%20AP%20e5ed0a4536d84f648e7db8f8b4c904bb/screely-1663936406385-get.png">
+    </div>
+
+    
+</figure></p>
+<h3 id="conclusion">Conclusion</h3>
+<p>We have successfully created a serverless API with the serverless framework, used Lambda functions, and connected our API to dynamoBD to persist our data.</p>
+<p>If you made it to the end, congratulations.</p>
+<p>Share and drop your comments below.</p>
+
+    
+  </div>
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+      </main>
+    </div>
+
+    <footer>
+      <p>Powered by
+    <a href="https://gohugo.io/">Hugo</a>
+    and
+    <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+</p>
+
+
+<link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body);"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false }
+      ]
+    });
+  });
+</script>
+
+    </footer>
+
+  </body>
+
+  <script>
+
+  function isAuto() {
+    return document.body.classList.contains("auto");
+  }
+
+  function setTheme() {
+    if (!isAuto()) {
+      return
+    }
+
+    document.body.classList.remove("auto");
+    let cls = "light";
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      cls = "dark";
+    }
+
+    document.body.classList.add(cls);
+  }
+
+  function invertBody() {
+    document.body.classList.toggle("dark");
+    document.body.classList.toggle("light");
+  }
+
+  if (isAuto()) {
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(invertBody);
+  }
+
+  setTheme();
+
+</script>
+
+</html>

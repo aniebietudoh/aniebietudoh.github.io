@@ -4,7 +4,7 @@ description: "A description of Francesco Tomaselli, an Italian software engineer
 hideBackToTop: true
 ---
 
-I've worked on some projects over the years.
+I've worked on some personal projects over the years.
 
 I will be updating this list soon as I have worked on a lot more projects that those listed here.
 

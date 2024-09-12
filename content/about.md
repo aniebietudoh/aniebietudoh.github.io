@@ -1,6 +1,6 @@
 ---
 title: "About"
-description: "A description of Francesco Tomaselli, an Italian software engineer."
+description: "A description of Aniebiet Robert, software engineer."
 hideBackToTop: true
 ---
 

@@ -2,25 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Home on </title>
-    <link>http://localhost:1313/</link>
+    <link>/</link>
     <description>Recent content in Home on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 23 Sep 2022 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How to Build a Serverless API using AWS lambda, API gateway, and DynamoDB</title>
-      <link>http://localhost:1313/blog/build-api-using-aws-serverless/</link>
+      <link>/blog/build-api-using-aws-serverless/</link>
       <pubDate>Fri, 23 Sep 2022 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/blog/build-api-using-aws-serverless/</guid>
+      <guid>/blog/build-api-using-aws-serverless/</guid>
       <description>Build a Serverless API using AWS lambda, API gateway, and DynamoDB.</description>
     </item>
     <item>
       <title>About</title>
-      <link>http://localhost:1313/about/</link>
+      <link>/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/about/</guid>
+      <guid>/about/</guid>
       <description>I am currently working at as a software engineer contracting for early stage startups.&#xA;Feel free to have a look at my LinkedIn or Github.&#xA;I also livestream on twitch Twitch where I build fun stuff with rust(lang) and typescript</description>
+    </item>
+    <item>
+      <title>Projects</title>
+      <link>/projects/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/projects/</guid>
+      <description>I&amp;rsquo;ve worked on some projects over the years.&#xA;I will be updating this list soon as I have worked on a lot more projects that those listed here.&#xA;[Cli Apps] A web scrapper for twitter more soon&amp;hellip; [Web Apps] A directory of Top Ai tools for any task: AiToolsBoard&#xA;A remote job board for africans: Workally&#xA;A shortlet (AirBnb) apartment booking platform (in-progress) for Africa: Stayzen&#xA;Web app for posting daily kind acts by anyone anywhere in the world.</description>
     </item>
   </channel>
 </rss>

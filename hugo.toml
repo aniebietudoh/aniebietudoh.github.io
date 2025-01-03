@@ -20,7 +20,7 @@ theme = 'auto'
 # Intro on main page, content is markdown
 homeIntroTitle = "Hi!, I'm Ani"
 homeIntroContent = """
-I am a Nigerian Software Developer with a background in engineering and a passion for solving complex problems.
+I am a Software Developer with a background in engineering and a passion for solving complex problems.
 
 I am interested in a range of topics, including web performance and security, devops, cloud security and web 3D.
 """
@@ -42,17 +42,17 @@ breadcrumbs = true
 name = "linkedin"
 url = "https://www.linkedin.com/in/aniebiet-robert-728426134/"
 
-[[params.social]]
-name = "medium"
-url = "https://medium.com/@aniebietudoh"
+# [[params.social]]
+# name = "medium"
+# url = "https://medium.com/@aniebietudoh"
 
 [[params.social]]
 name = "github"
 url = "https://github.com/aniebietudoh"
 
-[[params.social]]
-name = "twitch"
-url = "https://www.twitch.tv/revealtheweb"
+# [[params.social]]
+# name = "twitch"
+# url = "https://www.twitch.tv/revealtheweb"
 
 # Main menu pages
 [[params.menu]]

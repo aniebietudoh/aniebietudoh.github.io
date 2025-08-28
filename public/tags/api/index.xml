@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Api on </title>
-    <link>//localhost:1313/tags/api/</link>
+    <link>/tags/api/</link>
     <description>Recent content in Api on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 23 Sep 2022 00:00:00 +0000</lastBuildDate>
-    <atom:link href="//localhost:1313/tags/api/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="/tags/api/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How to Build a Serverless API using AWS lambda, API gateway, and DynamoDB</title>
-      <link>//localhost:1313/blog/build-api-using-aws-serverless/</link>
+      <link>/blog/build-api-using-aws-serverless/</link>
       <pubDate>Fri, 23 Sep 2022 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/blog/build-api-using-aws-serverless/</guid>
+      <guid>/blog/build-api-using-aws-serverless/</guid>
       <description>Build a Serverless API using AWS lambda, API gateway, and DynamoDB.</description>
     </item>
   </channel>

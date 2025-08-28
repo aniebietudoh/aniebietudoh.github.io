@@ -20,7 +20,7 @@ theme = 'auto'
 # Intro on main page, content is markdown
 homeIntroTitle = "Hi!, I'm Ani"
 homeIntroContent = """
-I am a Software Developer with a background in engineering and a passion for solving complex problems.
+I am a Software Developer & Support Engineer with a background in engineering and a passion for solving complex problems.
 
 I am interested in a range of topics, including web performance and security, devops, cloud security and web 3D.
 """
@@ -40,7 +40,7 @@ breadcrumbs = true
 # Social icons
 [[params.social]]
 name = "linkedin"
-url = "https://www.linkedin.com/in/aniebiet-robert-728426134/"
+url = "https://www.linkedin.com/in/aniebiet-udoh-9417b0133/"
 
 # [[params.social]]
 # name = "medium"

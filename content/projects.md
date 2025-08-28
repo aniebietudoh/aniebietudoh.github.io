@@ -4,7 +4,7 @@ description: ""
 hideBackToTop: true
 ---
 
-I've worked on some personal projects over the years.
+I've worked on some personal toy projects.
 
 #### Web Apps
 
